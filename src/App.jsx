@@ -55,6 +55,19 @@ export default function App() {
     load()
   }, [activeCategory])
 
+  useEffect(() => {
+    if (!detailProject) return
+    window.history.pushState({ ucsmModal: true }, '')
+    const onPop = () => setDetailProject(null)
+    window.addEventListener('popstate', onPop)
+    return () => {
+      window.removeEventListener('popstate', onPop)
+      if (window.history.state && window.history.state.ucsmModal) {
+        window.history.back()
+      }
+    }
+  }, [detailProject])
+
   return (
     <div style={s.page}>
       <Header />
